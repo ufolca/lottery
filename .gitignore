@@ -1,0 +1,10 @@
+/build
+/.idea
+/.gradle
+/.svn
+/captures
+gradlew
+gradlew.bat
+/gradle
+*.DS_Store
+*.log
