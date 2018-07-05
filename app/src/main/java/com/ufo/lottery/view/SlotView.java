@@ -1,14 +1,14 @@
 package com.ufo.lottery.view;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.ufo.lottery.R;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class SlotView extends AppCompatImageView implements ISlotStopListener {
     private final static String RESULT_1 = "FIRST_RESULT";

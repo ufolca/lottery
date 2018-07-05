@@ -1,14 +1,13 @@
 package com.ufo.lottery;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.ufo.lottery.utils.BmFactory;
 import com.ufo.lottery.view.SlotView;
-import com.ufo.lottery.view.ISlotStopListener;
 
 import java.util.Random;
 

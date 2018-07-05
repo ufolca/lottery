@@ -23,7 +23,7 @@ public class BmFactory {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    // fitScreen适应当前屏幕
+
     public static Bitmap readBitMap(int resId, boolean isHd) {
         Options opt = new Options();
         if (isHd) {

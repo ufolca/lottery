@@ -23,8 +23,9 @@ public final class SoftHashMap<K, V> extends AbstractMap<K, V> {
         SoftValue<V> sr = hash.get(key);
         if (sr != null) {
             res = sr.get();
-            if (res == null)
+            if (res == null) {
                 hash.remove(key);
+            }
         }
         return res;
     }

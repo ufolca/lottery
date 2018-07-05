@@ -36,10 +36,7 @@ public class SlotItemView {
             11, 8, 6};
     private ISlotStopListener listener;
     private boolean light;
-    private Bitmap bg;
-    private Bitmap itemBg;
     private Rect rect = new Rect();
-    private Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
     public SlotItemView(String tag, int width, int height,
                         ArrayList<Integer> items, int speedCount) {
@@ -53,7 +50,6 @@ public class SlotItemView {
         for (int i = 0; i < size; i++) {
             this.items.add(new SlotItem(items.get(i), i));
         }
-        itemBg = BmFactory.getBitmapResource(R.mipmap.bg_photo_unlock);
     }
 
     public void setListener(ISlotStopListener listener) {
@@ -176,13 +172,6 @@ public class SlotItemView {
             int index = (int) Math.abs(coast / 100);
             float s = SCALES[index % SCALES.length];
             bubbleScale = s;
-            if (bg != null) {
-                canvas.drawBitmap(bg, null, new Rect(
-                        (int) (position.x - screenWidth / 2),
-                        (int) (position.y - screenHeight / 2),
-                        (int) (position.x + screenWidth / 2),
-                        (int) (position.y + screenHeight / 2)), null);
-            }
         }
         if (img != null) {
             float imgW = bubbleScale * img.getWidth();
