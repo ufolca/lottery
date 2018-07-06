@@ -11,8 +11,8 @@ import java.util.Set;
  * @author lichengan
  */
 public final class SoftHashMap<K, V> extends AbstractMap<K, V> {
-    private Map<K, SoftValue<V>> hash = new HashMap<K, SoftValue<V>>();
-    private final ReferenceQueue<SoftValue<V>> queue = new ReferenceQueue<SoftValue<V>>();
+    private Map<K, SoftValue<V>> hash = new HashMap<>();
+    private final ReferenceQueue<SoftValue<V>> queue = new ReferenceQueue<>();
 
     public SoftHashMap() {
     }

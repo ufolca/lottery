@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SlotView extends AppCompatImageView implements ISlotStopListener {
-    private final static String RESULT_1 = "FIRST_RESULT";
-    private final static String RESULT_2 = "SECOND_RESULT";
-    private final static String RESULT_3 = "THIRD_RESULT";
 
     private int width;
     private int height;
@@ -54,6 +51,13 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         slotList3 = permute(slotList);
     }
 
+
+    /**
+     * 打乱一列数据
+     *
+     * @param array
+     * @return
+     */
     public ArrayList<Integer> permute(ArrayList<Integer> array) {
         ArrayList<Integer> newArray = new ArrayList<>(array);
         Random random = new Random();
@@ -63,6 +67,14 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         return newArray;
     }
 
+    /**
+     * 交换列表中的两项数据
+     *
+     * @param array
+     * @param indexA
+     * @param indexB
+     * @return
+     */
     public ArrayList<Integer> swap(ArrayList<Integer> array, int indexA,
                                    int indexB) {
         Integer temp = array.get(indexA);
@@ -80,21 +92,21 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         size = (int) (width * 1.0 / 3.0f);
         hSize = (int) (width * 1.0 / 3.1f);
         if (item1 == null) {
-            item1 = new SlotItemView(RESULT_1, gridSize, hSize, slotList1,
+            item1 = new SlotItemView(gridSize, hSize, slotList1,
                     400);
             item1.setPosition(new Point(width / 2 - size, height / 2));
             item1.setListener(this);
             nodes.add(item1);
         }
         if (item2 == null) {
-            item2 = new SlotItemView(RESULT_2, gridSize, hSize, slotList2,
+            item2 = new SlotItemView(gridSize, hSize, slotList2,
                     450);
             item2.setPosition(new Point(width / 2, height / 2));
             item2.setListener(this);
             nodes.add(item2);
         }
         if (item3 == null) {
-            item3 = new SlotItemView(RESULT_3, gridSize, hSize, slotList3,
+            item3 = new SlotItemView(gridSize, hSize, slotList3,
                     500);
             item3.setPosition(new Point(width / 2 + size, height / 2));
             item3.setListener(this);
@@ -102,12 +114,18 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         }
     }
 
+    /**
+     * 传入需要中奖结果index，停止转动
+     *
+     * @param result
+     */
     public void endRun(int result) {
         if (!run) {
             return;
         }
         run = false;
         if (result > -1) {
+            //-1表示没有中奖
             this.result = res[result];
         } else {
             this.result = 0;
@@ -116,6 +134,9 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
 
     }
 
+    /**
+     * 结束转动
+     */
     private void slotOver() {
         if (result == 0) {
             int[] noResult = generateNoResult();
@@ -133,6 +154,12 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         }
     }
 
+    /**
+     * 未中奖情况下随机生成一组结果
+     * 前2列随机选取，第3列循环选取直到保证三横行，对角线都不会存在3个相同图标为止
+     *
+     * @return
+     */
     public int[] generateNoResult() {
         int[] results = new int[3];
         Random rd = new Random();
@@ -141,14 +168,23 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         int size3 = slotList3.size();
         results[0] = rd.nextInt(size1);
         results[1] = rd.nextInt(size2);
+        //第一列第一个图标
         int f2 = slotList1.get((results[0] + 1) % size1);
+        //第一列第二个图标
         int f1 = slotList1.get(results[0]);
+        //第一列第三个图标
         int f0 = slotList1.get((results[0] + size1 - 1) % size1);
+        //第二列第一个图标
         int s2 = slotList2.get((results[1] + 1) % size2);
+        //第二列第二个图标
         int s1 = slotList2.get(results[1]);
+        //第二列第三个图标
         int s0 = slotList2.get((results[1] + size2 - 1) % size2);
+        //第三列第一个图标
         int t2 = 0;
+        //第三列第二个图标
         int t1 = 0;
+        //第三列第三个图标
         int t0 = 0;
         int count = -1;
         do {
@@ -166,6 +202,9 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         return results;
     }
 
+    /**
+     * 如果没有中奖且滚动超过3圈则停止转圈
+     */
     @Override
     public void isMax() {
         maxCount++;
@@ -177,6 +216,9 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         }
     }
 
+    /**
+     * 开始摇奖
+     */
     public void startRun() {
         if (run) {
             return;
@@ -186,11 +228,17 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
         isMax = false;
         stopCount = 0;
         maxCount = 0;
+        //第一列开始转动
         item1.startSlot();
+        //第二列开始转动
         item2.startSlot();
+        //第三列开始转动
         item3.startSlot();
     }
 
+    /**
+     * 停止后如果中奖情况下3列中间图标播放缩放动画
+     */
     @Override
     public void end() {
         stopCount++;
@@ -218,6 +266,6 @@ public class SlotView extends AppCompatImageView implements ISlotStopListener {
             SlotItemView slotItemView = nodes.get(i);
             slotItemView.onDraw(canvas);
         }
-        postInvalidate();
+        postInvalidateDelayed(5);
     }
 }
